@@ -5,10 +5,9 @@ import EventoCheckbox from './EventoCheckbox';
 import {useSetRecoilState} from 'recoil';
 import { listaDeEventosState } from '../../state/atom';
 
-const Evento: React.FC<{ evento: IEvento, aoAlterarStatus: (id: number) => void }> = ({ evento, aoAlterarStatus }) => {
+const Evento: React.FC<{ evento: IEvento }> = ({ evento }) => {
   
   const setListaDeEventos = useSetRecoilState<IEvento[]>(listaDeEventosState);
-
 
   const excluirEvento = () => {
     setListaDeEventos(listaAntiga => listaAntiga.filter(evt => evt.id !== evento.id))
@@ -24,7 +23,7 @@ const Evento: React.FC<{ evento: IEvento, aoAlterarStatus: (id: number) => void 
 
   return (<div className={estilos.join(' ')}>
 
-    <EventoCheckbox evento={evento} aoAlterarStatus={aoAlterarStatus}/>
+    <EventoCheckbox evento={evento} />
     <div className="cards-info">
       <h3 className={style.descricao}>{evento.descricao} - {evento.inicio.toLocaleDateString()}</h3>
     </div>
