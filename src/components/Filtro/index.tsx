@@ -3,10 +3,13 @@ import style from './Filtro.module.scss';
 import { useSetRecoilState } from 'recoil';
 import { IFiltroDeEventos } from '../../interfaces/IFiltroDeEventos';
 import { filtroDeEventos } from '../../state/atom';
+import { FormControl, Select, MenuItem } from '@mui/material';
 
 const Filtro: React.FC = () => {
   
   const [data, setData] = useState('');
+  const [estado, setEstado] = useState<'Completos' | 'Incompletos' | 'Ambos'>('Ambos');
+
   const setFiltroDeEvento = useSetRecoilState<IFiltroDeEventos>(filtroDeEventos)
   
   const submeterForm = (evento: React.FormEvent<HTMLFormElement>) => {
@@ -17,6 +20,7 @@ const Filtro: React.FC = () => {
     } else {
       filtro.data = null;
     }
+    filtro.estado = estado;
     setFiltroDeEvento(filtro);
   }
 
@@ -29,7 +33,20 @@ const Filtro: React.FC = () => {
       onChange={evento => setData(evento.target.value)} 
       placeholder="Por data"
       value={data} />
-
+    <FormControl sx={{ m: 1, minWidth: 120, bgcolor: 'white' }}>
+        <Select
+          value={estado}
+          onChange={e => setEstado(e.target.value as 'Completos' | 'Incompletos' | 'Ambos')}
+          displayEmpty
+          inputProps={{ 'aria-label': 'Without label' }}
+        >
+          <MenuItem value='Ambos'>
+            <em>Ambos</em>
+          </MenuItem>
+          <MenuItem value={'Completos'}>Completos</MenuItem>
+          <MenuItem value={'Incompletos'}>Incompletos</MenuItem>
+        </Select>
+      </FormControl>
     <button className={style.botao}>
       Filtrar
     </button>
